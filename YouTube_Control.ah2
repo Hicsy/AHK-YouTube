@@ -73,9 +73,16 @@ ResetHWND(lastHWND := 0) {
 		SoundPlay(soundRecord)
 		Return youTubeHWND
 	} Else {
-		; This app doesnt have the desired tab open.
-		SoundPlay(soundError)
-		Return 0
+		; This app doesnt have the desired tab open. Searching all windows...
+		anyHWND := WinExist(searchTitle)
+		If (anyHWND) {
+			youTubeHWND := anyHWND
+			SoundPlay(soundRecord)
+			Return youTubeHWND
+		} Else {
+			SoundPlay(soundError)
+			Return 0
+		}
 	}
 }
 
