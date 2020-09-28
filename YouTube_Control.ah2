@@ -39,7 +39,7 @@ global searchTitle := ".* - YouTube.*"
 ; A timeout for looping through browser tabs to find YouTube player.
 global MaxTabs := 20
 
-; The Window-Handle for YouTube.
+; The Window-Handles for YouTube and the CurrentApp.
 global youTubeHWND := 0
 
 ; Sets how long (seconds) a key needs to be held down for a long-press:
@@ -57,13 +57,17 @@ global soundError := "C:\Windows\Media\Windows Default.wav"
 ;region ---------------------- Helper Functions -------------------------------
 /**
  * Set youTubeHWND to current window (if it appears to be on a YouTube video).
+ * @param {int} lastHWND Optionally send in the screen HWND for capture
  * @return {int} Returns HWND if set... otherwise return 0.
  */
-ResetHWND() {
+ResetHWND(lastHWND := 0) {
 	global searchTitle
 	global soundRecord
 	global soundError
 	global youTubeHWND
+	If (lastHWND) {
+		ControlFocus(lastHWND)
+	}
 	If WinActive(searchTitle){
 		youTubeHWND := WinGetID("A")
 		SoundPlay(soundRecord)
@@ -88,12 +92,12 @@ CheckHWND(resetOnFail := False) {
 	If (WinExist("ahk_id " youTubeHWND)) {
 		return youTubeHWND
 	} Else {
-		if (resetOnFail) {
+		If (resetOnFail) {
 			youTubeHWND := ResetHWND()
-		} else {
+		} Else {
 			youTubeHWND := 0
 		}
-		return youTubeHWND
+		Return youTubeHWND
 	}
 }
 
@@ -110,13 +114,13 @@ FocusYouTube() {
 	global youTubeHWND
 	If (CheckHWND()) {
 		ControlFocus(youTubeHWND)
-		If (WinExist(searchTitle)) {
+		If (WinExist(searchTitle " ahk_id " youTubeHWND)) {
 			Return True
 		} Else {
 			; Start searching at tab 1...
 			ControlSend("^1", youTubeHWND, searchTitle)
 			Loop maxTabs{
-				If (WinExist(searchTitle)) {
+				If (WinExist(searchTitle " ahk_id " youTubeHWND)) {
 					Return True
 				} Else {
 					; Try the next tab...
@@ -126,7 +130,6 @@ FocusYouTube() {
 					Sleep(50)		;1000 ms = 1 sec.
 				}
 			}
-			SoundPlay(soundError)
 			Return False
 		}
 	}
@@ -145,6 +148,7 @@ ControlYouTube(myCommand) {
 	global soundAck
 	global youTubeHWND
 	If (CheckHWND(True)) {
+		lastHWND := WinGetID("A")
 		If (FocusYouTube()) {
 			; YouTube tab located; sending your command...
 			ControlFocus(youTubeHWND)
@@ -153,7 +157,9 @@ ControlYouTube(myCommand) {
 			Return
 		} Else {
 			; Couldn't find YouTube in the designated window; trying again...
-			ResetHWND()
+			If (ResetHWND(lastHWND)) {
+				ControlYouTube(myCommand)
+			}
 		}
 	}
 }
