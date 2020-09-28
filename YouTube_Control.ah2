@@ -17,8 +17,9 @@
  * @requires AutoHotKey Version: 2.0 (Tested on build a122)
  */
 
-;region ====================== Initialisation =================================
 
+
+;region ====================== Initialisation =================================
 ; Keep running. https://lexikos.github.io/v2/docs/commands/_Persistent.htm
 #Persistent
 ; https://lexikos.github.io/v2/docs/commands/_SingleInstance.htm
