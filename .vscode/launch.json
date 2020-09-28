@@ -5,19 +5,20 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "ahk",
-            "request": "launch",
             "name": "AHKV2",
+            "type": "autohotkey",
+            "request": "launch",
             "program": "${file}",
             "runtime": "C:\\Program Files\\AutoHotkey\\v2-alpha\\x64\\AutoHotkeyU64.exe",
             "stopOnEntry": true
         },
         {
-            "type": "ahk",
-            "request": "launch",
             "name": "AHKV1",
+            "type": "autohotkey",
+            "request": "launch",
             "program": "${file}",
-            "runtime": "C:\\Program Files\\Autohotkey\\AutoHotkeyU64.exe",
+            "runtime_v1": "C:\\Program Files\\Autohotkey\\AutoHotkeyU64.exe",
+            "runtime_v2": "C:\\Program Files\\AutoHotkey\\v2-alpha\\x64\\AutoHotkeyU64.exe",
             "stopOnEntry": true
         }
     ]
