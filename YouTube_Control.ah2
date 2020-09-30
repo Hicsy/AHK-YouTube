@@ -216,19 +216,45 @@ KeyDownTimer(keyDown, myCommand) {
 /**
  * Put any keybindings you want to use, in this section.
  * If you want to support the LONG-PRESS actions:
- * 		Send the KeyCode, and the YT-Shortcut to KeyDownTimer()
+ * 		Send the KeyCode & YT-Shortcut to KeyDownTimer()
  * Otherwise [for tap only]: Just send the YT-Shortcut to ControlYouTube()
+ * @link https://support.google.com/youtube/answer/7631406 | Keyboard Shortcuts
  */
-F21:: {
-	; Send "k" (play/pause) at YouTube Window
+*F21:: {
+	; Send "k" (play/pause) at YouTube Window (Fn Key capable of long-press).
 	KeyDownTimer("F21", "k")
 }
 
-F22:: {
+<+Media_Prev:: {
 	; Send "j" (Seek-) at YouTube Window
-	KeyDownTimer("F21", "j")
+	ControlYouTube("j")
 }
 
+<+Media_Play_Pause:: {
+	; Send "k" (play/pause) at YouTube Window
+	ControlYouTube("k")
+}
+
+<+Media_Next:: {
+	; Send "l" (Seek+) at YouTube Window
+	ControlYouTube("l")
+}
+
+
+>+Media_Prev:: {
+	; Send "<" (Speed-) at YouTube Window
+	ControlYouTube("<")
+}
+
+>+Media_Play_Pause:: {
+	; Send "c" (captions/subtitles) at YouTube Window
+	ControlYouTube("c")
+}
+
+>+Media_Next:: {
+	; Send ">" (Speed+) at YouTube Window
+	ControlYouTube(">")
+}
 
 ;endregion --------------------------------------------------------------------
 ;endregion ============== END: Main ===========================================
