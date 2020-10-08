@@ -225,6 +225,12 @@ KeyDownTimer(keyDown, myCommand) {
 	KeyDownTimer("F21", "k")
 }
 
+Media_Prev:: {
+	; Send "j" (Seek-) at YouTube Window
+	ControlYouTube("j")
+}
+
+
 <+Media_Prev:: {
 	; Send "j" (Seek-) at YouTube Window
 	ControlYouTube("j")
